@@ -14,55 +14,49 @@ HALF_SHREK = [
     [0, 290],
 ]
 
-def draw_shrek(x_offset, y_offset, upside_down):
+HALF_FARQUAAD = [
+    [100, 310],
+    [100, 290],
+    [170, 310],
+    [200, 310],
+    [200, -25],
+] + HALF_SHREK[1:-3]
+
+def draw_a_set(x_offset, y_offset, flip_horizontal, flip_vertical):
+
     up()
     goto(x_offset, y_offset)
     down()
+
     turtle.fillcolor('green')
     turtle.begin_fill()
-    draw_half_shrek(x_offset, y_offset, False, upside_down)
+    draw_zs(HALF_SHREK, x_offset, y_offset, flip_horizontal, flip_vertical)
     turtle.end_fill()
-    up()
-    goto(x_offset, y_offset)
-    down()
-    turtle.begin_fill()
-    draw_half_shrek(x_offset, y_offset, True, upside_down)
-    turtle.end_fill()
-    up()
 
-def draw_half_shrek(x_offset, y_offset, reverse, upside_down):
-    x_multiplier = -1 if reverse else 1
-    y_multiplier = -1 if upside_down else 1
-    for x, y in HALF_SHREK:
-        goto(x_offset + x * x_multiplier, y_offset + y_multiplier * y)
+    up()
+    draw_zs(HALF_FARQUAAD[:1], x_offset, y_offset, flip_horizontal, flip_vertical)
+    down()
+
+    turtle.fillcolor('red')
+    turtle.begin_fill()
+    draw_zs(HALF_FARQUAAD, x_offset, y_offset, flip_horizontal, flip_vertical)
+    turtle.end_fill()
+
+def draw_zs(zs, x_offset, y_offset, flip_horizontal, flip_vertical):
+    x_multiplier = -1 if flip_horizontal else 1
+    y_multiplier = -1 if flip_vertical else 1
+    for x, y in zs:
+        goto(x_offset + x_multiplier * x, y_offset + y_multiplier * y)
+
+start_x = 0
+start_y = 0
 
 #turtle.bgcolor("red")
-for i in range(3):
-    is_upside_down = i % 2 == 0
-    extra = 0 if is_upside_down else 55
-    for j in range(3):
-        draw_shrek(x_offset=-500 + i * 220, y_offset=-500 + j * 650 + extra, upside_down=is_upside_down)
+draw_a_set(x_offset=start_x, y_offset=start_y, flip_horizontal=False, flip_vertical=False)
+draw_a_set(x_offset=start_x, y_offset=start_y, flip_horizontal=True, flip_vertical=False)
 
-
-"""
-right(10)
-forward(100)
-left(110)
-forward(100)
-right(50)
-forward(40)
-left(50)
-forward(200)
-left(20)
-forward(40)
-right(10)
-forward(50)
-right(90)
-forward(60)
-left(170)
-forward(80)
-"""
-
+draw_a_set(x_offset=start_x + 200, y_offset=start_y + 600, flip_horizontal=False, flip_vertical=True)
+draw_a_set(x_offset=start_x + 200, y_offset=start_y + 600, flip_horizontal=True, flip_vertical=True)
 
 
 ts = turtle.getscreen()
