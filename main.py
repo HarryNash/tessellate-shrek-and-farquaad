@@ -107,43 +107,44 @@ COMPOSITION = [
 BEGIN_X = -400
 BEGIN_Y = 300
 
-ROWS = 3
-COLUMNS = 3
+ROWS = 10
+COLUMNS = 10
 
 
 def draw_atom(x_offset, y_offset, flip_on_y_axis, flip_on_x_axis):
     y_offset += 290 if flip_on_x_axis else 0
     x_offset += 200 if flip_on_x_axis else 0
+    x_multiplier = -1 if flip_on_y_axis else 1
+    y_multiplier = -1 if flip_on_x_axis else 1
 
     for shape, colour in COMPOSITION:
-        paint_shape(shape, colour, x_offset, y_offset, flip_on_y_axis, flip_on_x_axis)
+        paint_shape(shape, colour, x_offset, y_offset, y_multiplier, x_multiplier)
 
-    paint_eye(15, 260, 4, 10, x_offset, y_offset, flip_on_y_axis, flip_on_x_axis)
-    paint_eye(150, 140, 10, 40, x_offset, y_offset, flip_on_y_axis, flip_on_x_axis)
+    paint_eye([15, 260], 4, 10, x_offset, y_offset, y_multiplier, x_multiplier)
+    paint_eye([150, 140], 10, 40, x_offset, y_offset, y_multiplier, x_multiplier)
 
 
-def paint_eye(x, y, min, max, x_offset, y_offset, flip_on_y_axis, flip_on_x_axis):
+def paint_eye(position, pupil, eyeball, x_offset, y_offset, y_multiplier, x_multiplier):
+    jumpto(position, x_offset, y_offset, y_multiplier, x_multiplier)
+    dot(eyeball, "white")
+    dot(pupil, "black")
+
+
+def jumpto(position, x_offset, y_offset, y_multiplier, x_multiplier):
     up()
-    draw_shape([[x, y]], x_offset, y_offset, flip_on_y_axis, flip_on_x_axis)
-    down()
-    dot(max, "white")
-    dot(min, "black")
-
-
-def paint_shape(shape, colour, x_offset, y_offset, flip_on_y_axis, flip_on_x_axis):
-    up()
-    draw_shape(shape[:1], x_offset, y_offset, flip_on_y_axis, flip_on_x_axis)
+    draw_shape([position], x_offset, y_offset, y_multiplier, x_multiplier)
     down()
 
+
+def paint_shape(shape, colour, x_offset, y_offset, y_multiplier, x_multiplier):
+    jumpto(shape[0], x_offset, y_offset, y_multiplier, x_multiplier)
     fillcolor(colour)
     begin_fill()
-    draw_shape(shape, x_offset, y_offset, flip_on_y_axis, flip_on_x_axis)
+    draw_shape(shape, x_offset, y_offset, y_multiplier, x_multiplier)
     end_fill()
 
 
-def draw_shape(zs, x_offset, y_offset, flip_on_y_axis, flip_on_x_axis):
-    x_multiplier = -1 if flip_on_y_axis else 1
-    y_multiplier = -1 if flip_on_x_axis else 1
+def draw_shape(zs, x_offset, y_offset, y_multiplier, x_multiplier):
     for x, y in zs:
         goto(x_offset + x_multiplier * x, y_offset + y_multiplier * y)
 
@@ -159,12 +160,6 @@ def main():
                 x_offset=x,
                 y_offset=y,
                 flip_on_y_axis=False,
-                flip_on_x_axis=flip_on_x_axis,
-            )
-            draw_atom(
-                x_offset=x,
-                y_offset=y,
-                flip_on_y_axis=True,
                 flip_on_x_axis=flip_on_x_axis,
             )
             x += max([x for x, _ in FARQUAAD]) * 2
