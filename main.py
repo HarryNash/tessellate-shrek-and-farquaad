@@ -162,6 +162,12 @@ def main():
                 flip_on_y_axis=False,
                 flip_on_x_axis=flip_on_x_axis,
             )
+            draw_atom(
+                x_offset=x,
+                y_offset=y,
+                flip_on_y_axis=True,
+                flip_on_x_axis=flip_on_x_axis,
+            )
             x += max([x for x, _ in FARQUAAD]) * 2
         y -= max([y for _, y in FARQUAAD])
         x = BEGIN_X
