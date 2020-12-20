@@ -13,16 +13,27 @@ HALF_SHREK = [
     [60, 310], # tip of shreks ear
     [30, 290],
     [0, 290],
-    [0, 0]
 ]
 
 HALF_FARQUAAD = [
+    [200, -20],
+
+    [100, -10],
+    [85, 30],
+    [110, 60],
+    [60, 200],
+    [30, 240],
+    [25, 280],
+    [55, 290],
+
+
+
     [60, 310],
     [140, 290],
     [170, 310],
     [200, 310],
-    [200, -20],
-] + HALF_SHREK[1:-3]
+
+    ]
 
 FARQUAAD_HAIR = [
     [60, 310], # tip of shreks ear
@@ -36,11 +47,12 @@ FARQUAAD_HAIR = [
 ]
 
 FARQUAAD_HAT = [
-    [100, -10], # tip of shreks foot
-    [200, -20], # tip of hat
     [200, 70],
     [110, 60],
     [85, 30],
+    [100, -10], # tip of shreks foot
+    [200, -20], # tip of hat
+
 ]
 
 SHREK_VEST = [
@@ -61,6 +73,7 @@ SHREK_TROUSERS = [
 ]
 
 SHREK_SHIRT = [
+    [0, 180],
     [30, 240],
     [60, 200],
     [105, 74],
@@ -69,7 +82,6 @@ SHREK_SHIRT = [
     [95, 74],
     [98, 66],
     [0,0],
-    [0, 180]
 ]
 
 FARQUAAD_EYEBROWS = [
@@ -92,6 +104,14 @@ SHREK_MOUTH = [
     [0, 240]
 ]
 
+FARQUAAD_NOSE = [
+    [200, 210 - 20],
+
+    [180, 180 - 20],
+    [200, 220 - 20],
+
+]
+
 
 def draw_a_set(x_offset, y_offset, flip_horizontal, flip_vertical):
     y_offset += 290 if flip_vertical else 0
@@ -109,6 +129,7 @@ def draw_a_set(x_offset, y_offset, flip_horizontal, flip_vertical):
     draw_shapes(FARQUAAD_HAT, '#d60b23', x_offset, y_offset, flip_horizontal, flip_vertical)
     draw_shapes(FARQUAAD_EYEBROWS, 'black', x_offset, y_offset, flip_horizontal, flip_vertical)
     draw_shapes(FARQUAAD_MOUTH, '#d60b23', x_offset, y_offset, flip_horizontal, flip_vertical)
+    draw_shapes(FARQUAAD_NOSE, '#dfb1a9', x_offset, y_offset, flip_horizontal, flip_vertical)
     draw_eye(150, 140, 10, 40, x_offset, y_offset, flip_horizontal, flip_vertical)
 
 def draw_eye(x, y, min, max, x_offset, y_offset, flip_horizontal, flip_vertical):
@@ -149,9 +170,9 @@ start_y = BEGIN_Y
 # draw_a_set(x_offset=start_x + 400, y_offset=start_y, flip_horizontal=True, flip_vertical=True)
 
 
-for row in range(4):
+for row in range(2):
     should_flip_vertical = row % 2 == 1
-    for col in range(4):
+    for col in range(2):
         draw_a_set(x_offset=start_x, y_offset=start_y, flip_horizontal=False, flip_vertical=should_flip_vertical)
         draw_a_set(x_offset=start_x, y_offset=start_y, flip_horizontal=True, flip_vertical=should_flip_vertical)
         start_x += 400
