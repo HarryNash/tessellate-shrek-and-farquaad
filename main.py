@@ -13,6 +13,7 @@ HALF_SHREK = [
     [60, 310], # tip of shreks ear
     [30, 290],
     [0, 290],
+    [0, 0]
 ]
 
 HALF_FARQUAAD = [
@@ -42,47 +43,90 @@ FARQUAAD_HAT = [
     [85, 30],
 ]
 
+SHREK_VEST = [
+    [45, 220],
+    [50, 160],
+    [30, 160],
+    [15, 165],
+    [12, 180],
+    [30, 240],
+]
+
+SHREK_TROUSERS = [
+    [0, 0],
+    [100, -10],
+    [85, 30],
+    [0, 30],
+    [0, 0]
+]
+
+SHREK_SHIRT = [
+    [30, 240],
+    [60, 200],
+    [105, 74],
+    [95, 74],
+    [50, 160],
+    [95, 74],
+    [98, 66],
+    [0,0],
+    [0, 180]
+]
+
+FARQUAAD_EYEBROWS = [
+    [120, 90], # overside of brow
+    [110, 120],  # rightmost part
+    [120, 105], #  underside of brow
+    [190, 120],  # leftmost part
+]
+
+FARQUAAD_MOUTH = [
+    [200, 250],
+    [120, 210],
+    [200, 220]
+]
+
+SHREK_MOUTH = [
+    [0, 250],
+    [20, 250],
+    [23, 240],
+    [0, 240]
+]
+
+
 def draw_a_set(x_offset, y_offset, flip_horizontal, flip_vertical):
     y_offset += 290 if flip_vertical else 0
     x_offset += 200 if flip_vertical else 0
 
+    draw_shapes(HALF_SHREK, '#7bb626', x_offset, y_offset, flip_horizontal, flip_vertical)
+    draw_shapes(SHREK_SHIRT, '#e8e5c4', x_offset, y_offset, flip_horizontal, flip_vertical)
+    draw_shapes(SHREK_VEST, '#5f4726', x_offset, y_offset, flip_horizontal, flip_vertical)
+    draw_shapes(SHREK_TROUSERS, '#5f4726', x_offset, y_offset, flip_horizontal, flip_vertical)
+    draw_shapes(SHREK_MOUTH, '#d60b23', x_offset, y_offset, flip_horizontal, flip_vertical)
+    draw_eye(15, 260, 4, 10, x_offset, y_offset, flip_horizontal, flip_vertical)
+
+    draw_shapes(HALF_FARQUAAD, '#dfb1a9', x_offset, y_offset, flip_horizontal, flip_vertical)
+    draw_shapes(FARQUAAD_HAIR, 'black', x_offset, y_offset, flip_horizontal, flip_vertical)
+    draw_shapes(FARQUAAD_HAT, '#d60b23', x_offset, y_offset, flip_horizontal, flip_vertical)
+    draw_shapes(FARQUAAD_EYEBROWS, 'black', x_offset, y_offset, flip_horizontal, flip_vertical)
+    draw_shapes(FARQUAAD_MOUTH, '#d60b23', x_offset, y_offset, flip_horizontal, flip_vertical)
+    draw_eye(150, 140, 10, 40, x_offset, y_offset, flip_horizontal, flip_vertical)
+
+def draw_eye(x, y, min, max, x_offset, y_offset, flip_horizontal, flip_vertical):
     up()
-    goto(x_offset, y_offset)
+    draw_zs([[x, y]], x_offset, y_offset, flip_horizontal, flip_vertical)
+    down()
+    dot(max, 'white')
+    dot(min, 'black')
+
+def draw_shapes(points, colour, x_offset, y_offset, flip_horizontal, flip_vertical):
+    up()
+    draw_zs(points[:1], x_offset, y_offset, flip_horizontal, flip_vertical)
     down()
 
-    turtle.fillcolor('#7bb626')
+    turtle.fillcolor(colour)
     turtle.begin_fill()
-    draw_zs(HALF_SHREK, x_offset, y_offset, flip_horizontal, flip_vertical)
+    draw_zs(points, x_offset, y_offset, flip_horizontal, flip_vertical)
     turtle.end_fill()
-
-    up()
-    draw_zs(HALF_FARQUAAD[:1], x_offset, y_offset, flip_horizontal, flip_vertical)
-    down()
-
-    turtle.fillcolor('#dfb1a9')
-    turtle.begin_fill()
-    draw_zs(HALF_FARQUAAD, x_offset, y_offset, flip_horizontal, flip_vertical)
-    turtle.end_fill()
-
-    up()
-    draw_zs(FARQUAAD_HAIR[:1], x_offset, y_offset, flip_horizontal, flip_vertical)
-    down()
-
-    turtle.fillcolor('black')
-    turtle.begin_fill()
-    draw_zs(FARQUAAD_HAIR, x_offset, y_offset, flip_horizontal, flip_vertical)
-    turtle.end_fill()
-
-
-    up()
-    draw_zs(FARQUAAD_HAT[:1], x_offset, y_offset, flip_horizontal, flip_vertical)
-    down()
-
-    turtle.fillcolor('#d60b23')
-    turtle.begin_fill()
-    draw_zs(FARQUAAD_HAT, x_offset, y_offset, flip_horizontal, flip_vertical)
-    turtle.end_fill()
-
 
 
 
@@ -94,20 +138,20 @@ def draw_zs(zs, x_offset, y_offset, flip_horizontal, flip_vertical):
     for x, y in zs:
         goto(x_offset + x_multiplier * x, y_offset + y_multiplier * y)
 
-BEGIN_X = -200
+BEGIN_X = -400
 BEGIN_Y = 300
 
 start_x = BEGIN_X
 start_y = BEGIN_Y
 
 # FARQUAAD TEST
-#draw_a_set(x_offset=start_x, y_offset=start_y, flip_horizontal=False, flip_vertical=True)
-#draw_a_set(x_offset=start_x + 400, y_offset=start_y, flip_horizontal=True, flip_vertical=True)
+# draw_a_set(x_offset=start_x, y_offset=start_y, flip_horizontal=False, flip_vertical=True)
+# draw_a_set(x_offset=start_x + 400, y_offset=start_y, flip_horizontal=True, flip_vertical=True)
 
 
-for row in range(1):
+for row in range(4):
     should_flip_vertical = row % 2 == 1
-    for col in range(1):
+    for col in range(4):
         draw_a_set(x_offset=start_x, y_offset=start_y, flip_horizontal=False, flip_vertical=should_flip_vertical)
         draw_a_set(x_offset=start_x, y_offset=start_y, flip_horizontal=True, flip_vertical=should_flip_vertical)
         start_x += 400
